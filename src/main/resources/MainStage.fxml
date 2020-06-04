@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="630.0">
+         <children>
+            <TableView fx:id="tableProducts" prefHeight="289.0" prefWidth="400.0">
+              <columns>
+                <TableColumn fx:id="columnID" prefWidth="40.0" text="ID" />
+                <TableColumn fx:id="columnName" prefWidth="120.0" text="Name" />
+                  <TableColumn fx:id="columnCategory" text="Category" />
+                  <TableColumn fx:id="columnPrice" prefWidth="75.0" text="Price" />
+                  <TableColumn fx:id="columnDiscount" prefWidth="75.0" text="Discount" />
+                  <TableColumn fx:id="columnActualPrice" prefWidth="75.0" text="ActualPrice" />
+                  <TableColumn fx:id="columnDescription" prefWidth="150.0" text="Description" />
+              </columns>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </TableView>
+            <HBox prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#buttonAction" prefWidth="111.0" text="Add product">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#buttonAction" prefWidth="111.0" text="Edit product">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnSetDiscounts" mnemonicParsing="false" onAction="#buttonAction" prefWidth="111.0" text="Set discounts">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnRemove" mnemonicParsing="false" onAction="#buttonAction" prefWidth="111.0" text="Remove product">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#buttonAction" prefWidth="60.0" text="Search">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <TextField fx:id="fldSearchByID" prefHeight="25.0" prefWidth="45.0" promptText="enter ID">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="1.0" right="1.0" top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="8.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="boxSearch" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <HBox prefHeight="57.0" prefWidth="125.0">
+                     <children>
+                        <Button fx:id="btnSample" mnemonicParsing="false" onAction="#buttonAction" prefHeight="25.0" prefWidth="111.0" text="SAMPLE DATA" textAlignment="CENTER" textFill="RED">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="boxDiscounts" disable="true" prefHeight="57.0" prefWidth="473.0">
+                     <children>
+                        <MenuButton fx:id="menuButton2" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="Category">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#menuItemReaction2" text="FRUIT" />
+                            <MenuItem mnemonicParsing="false" onAction="#menuItemReaction2" text="VEGETABLE" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction2" text="MEAT" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction2" text="SOFT_DRINKS" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction2" text="DUMPLINGS" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction2" text="ALCOHOLIC_DRINKS" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction2" text="DAIRY_AND_EGGS" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction2" text="BREAD_AND_PASTRIES" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction2" text="CONFECTIONERY" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction2" text="OTHER" />
+                          </items>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </MenuButton>
+                        <TextField fx:id="fldMultidiscount" prefHeight="25.0" prefWidth="38.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" top="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label prefHeight="27.0" prefWidth="20.0" text="\%">
+                           <HBox.margin>
+                              <Insets bottom="10.0" right="5.0" top="10.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnSaveDiscounts" mnemonicParsing="false" onAction="#buttonAction" text="OK">
+                           <HBox.margin>
+                              <Insets bottom="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox fx:id="boxAddEdit" prefHeight="400.0" prefWidth="270.0">
+         <children>
+            <HBox fx:id="boxSettings" disable="true" prefHeight="250.0" prefWidth="270.0">
+               <children>
+                  <VBox prefHeight="250.0" prefWidth="70.0">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="62.0" text="Category*">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="15.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Name*">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="30.0" top="7.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Price*">
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="35.0" top="7.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Discount">
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="20.0" top="4.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Description">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="7.0" top="15.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="* - mandatory">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="3.0" left="3.0" right="3.0" top="25.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="250.0" prefWidth="200.0">
+                     <children>
+                        <MenuButton fx:id="menuButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="188.0" text="Category:">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#menuItemReaction" text="FRUIT" />
+                            <MenuItem mnemonicParsing="false" onAction="#menuItemReaction" text="VEGETABLE" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction" text="MEAT" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction" text="SOFT_DRINKS" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction" text="DUMPLINGS" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction" text="ALCOHOLIC_DRINKS" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction" text="DAIRY_AND_EGGS" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction" text="BREAD_AND_PASTRIES" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction" text="CONFECTIONERY" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuItemReaction" text="OTHER" />
+                          </items>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </MenuButton>
+                        <TextField fx:id="fldName">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="fldPrice" prefHeight="25.0" prefWidth="30.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <HBox prefHeight="32.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="fldDiscount" prefHeight="25.0" prefWidth="41.0" />
+                              <Label text="\%">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <TextArea fx:id="fldDescription" prefHeight="98.0" prefWidth="200.0">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TextArea>
+                        <HBox prefHeight="70.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="btnSave" defaultButton="true" mnemonicParsing="false" onAction="#buttonAction" prefWidth="55.0" text="Save">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="btnClear" cancelButton="true" mnemonicParsing="false" onAction="#buttonAction" prefWidth="55.0" text="Clear">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#buttonAction" prefWidth="55.0" text="Cancel">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <TextArea fx:id="fldError" editable="false" prefHeight="140.0" prefWidth="261.0" visible="false">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </padding>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextArea>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>
