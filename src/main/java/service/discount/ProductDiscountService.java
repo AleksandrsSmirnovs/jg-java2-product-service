@@ -2,15 +2,17 @@ package service.discount;
 
 import domain.Product;
 import domain.ProductCategory;
-import repository.Repository;
+import repository.DiscountRepository;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ProductDiscountService implements DiscountService {
 
-    private Map<ProductCategory, BigDecimal> categoryDiscounts = new HashMap<>();
+    private DiscountRepository repository;
+
+    public ProductDiscountService(DiscountRepository repository){
+        this.repository = repository;
+    }
 
     @Override
     public void setDiscountForProduct(Product product) {
@@ -20,13 +22,11 @@ public class ProductDiscountService implements DiscountService {
 
     @Override
     public void setDiscountForCategory(ProductCategory category, BigDecimal discount) {
-        categoryDiscounts.put(category, discount);
+        repository.setDiscountForCategory(category, discount);
     }
 
     @Override
     public void checkForCategoryDiscount(Product product){
-        if (categoryDiscounts.containsKey(product.getCategory())) {
-            product.setDiscount(categoryDiscounts.get(product.getCategory()));
-        }
+        repository.checkForCategoryDiscount(product);
     }
 }

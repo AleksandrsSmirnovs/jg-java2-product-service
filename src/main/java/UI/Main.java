@@ -1,7 +1,10 @@
 package UI;
 
 import repository.InMemoryProductRepository;
+import repository.Repository;
 import service.DefaultProductService;
+import service.ProductService;
+import service.discount.DiscountService;
 import service.discount.ProductDiscountService;
 import service.validation.DefaultProductValidator;
 import javafx.application.Application;
@@ -9,8 +12,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import service.validation.ProductValidator;
+import service.validation.validationRules.*;
 
-import java.util.HashMap;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -19,7 +24,19 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("MainStage.fxml"));
         Parent root = fxmlLoader.load();
         MainController controller = fxmlLoader.getController();
-        controller.injectService(new DefaultProductService(new InMemoryProductRepository(new HashMap<>()), new DefaultProductValidator(), new ProductDiscountService()));
+        InMemoryProductRepository repository = new InMemoryProductRepository();
+        List<ProductValidationRule> listOfRules = List.of(
+                new ProductCategoryValidationRule(),
+                new ProductNameValidationRule(),
+                new ProductUniqueNameValidationRule(repository),
+                new ProductPriceValidationRule(),
+                new ProductDiscountValidationRule(),
+                new ProductDescriptionValidationRule()
+        );
+        ProductValidator validator = new DefaultProductValidator(listOfRules);
+        DiscountService discountService = new ProductDiscountService(repository);
+        ProductService productService = new DefaultProductService(repository, validator, discountService);
+        controller.injectService(productService);
         primaryStage.setTitle("Product service Application");
         primaryStage.setScene(new Scene(root, 910, 410));
         primaryStage.setResizable(false);

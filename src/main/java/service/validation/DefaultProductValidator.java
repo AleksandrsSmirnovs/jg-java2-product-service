@@ -10,13 +10,8 @@ public class DefaultProductValidator implements ProductValidator {
     private final List<ProductValidationRule> listOfRules;
     private StringBuilder messageList = new StringBuilder();
 
-    public DefaultProductValidator(){
-        listOfRules = List.of(
-                new ProductCategoryValidationRule(),
-                new ProductNameValidationRule(),
-                new ProductPriceValidationRule(),
-                new ProductDescriptionValidationRule()
-        );
+    public DefaultProductValidator(List<ProductValidationRule> listOfRules){
+        this.listOfRules = listOfRules;
     }
 
     @Override

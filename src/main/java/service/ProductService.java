@@ -18,4 +18,6 @@ public interface ProductService {
     void setDiscount(Product product, BigDecimal discount);
 
     void setDiscountForCategory(ProductCategory category, BigDecimal discount);
+
+    void fillSampleData();
 }

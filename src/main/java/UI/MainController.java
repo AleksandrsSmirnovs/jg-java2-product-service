@@ -2,6 +2,7 @@ package UI;
 
 import domain.*;
 import service.DefaultProductService;
+import service.ProductService;
 import service.validation.ProductValidationException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 
 public class MainController {
 
-    private DefaultProductService service;
+    private ProductService service;
 
     ObservableList<Product> observableList;
 
@@ -65,7 +66,7 @@ public class MainController {
         columnDescription.setCellValueFactory(new PropertyValueFactory<Product, String>("description"));
     }
 
-    public void injectService(DefaultProductService service) {
+    public void injectService(ProductService service) {
         this.service = service;
         observableList = FXCollections.observableList(service.findAll());
     }
