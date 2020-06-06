@@ -3,6 +3,7 @@ package dto;
 import domain.ProductCategory;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 public class ProductDto {
@@ -13,7 +14,6 @@ public class ProductDto {
     private BigDecimal price;
     private BigDecimal discount;
     private String description;
-    private BigDecimal actualPrice;
 
     public static class Builder {
         private Long id;
@@ -65,9 +65,11 @@ public class ProductDto {
         category = builder.category == null ? ProductCategory.UNDEFINED : builder.category;
         discount = builder.discount == null ? BigDecimal.ZERO : builder.discount;
         description = builder.description == null ? "" : builder.description;
-        actualPrice = builder.discount == null ? builder.price : builder.price.subtract(builder.price.multiply(builder.discount));
     }
 
+    public BigDecimal getActualPrice() {
+        return discount == null ? price : price.subtract(price.multiply(discount).multiply(BigDecimal.valueOf(0.01))).setScale(2, RoundingMode.HALF_EVEN);
+    }
 
     public Long getId() {
         return id;
