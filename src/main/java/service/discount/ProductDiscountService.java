@@ -1,7 +1,7 @@
 package service.discount;
 
-import domain.Product;
 import domain.ProductCategory;
+import dto.ProductDto;
 import repository.DiscountRepository;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ public class ProductDiscountService implements DiscountService {
     }
 
     @Override
-    public void setDiscountForProduct(Product product) {
+    public void setDiscountForProduct(ProductDto productDto) {
 
 
     }
@@ -26,7 +26,7 @@ public class ProductDiscountService implements DiscountService {
     }
 
     @Override
-    public void checkForCategoryDiscount(Product product){
-        repository.checkForCategoryDiscount(product);
+    public void checkForCategoryDiscount(ProductDto productDto){
+        repository.checkCategoryDiscount(productDto);
     }
 }

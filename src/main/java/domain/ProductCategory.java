@@ -11,5 +11,6 @@ public enum ProductCategory {
     DAIRY_AND_EGGS,
     BREAD_AND_PASTRIES,
     CONFECTIONERY,
-    OTHER;
+    OTHER,
+    UNDEFINED;
 }

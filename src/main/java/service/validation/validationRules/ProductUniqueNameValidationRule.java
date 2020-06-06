@@ -1,20 +1,20 @@
 package service.validation.validationRules;
 
-import domain.Product;
-import repository.Repository;
+import dto.ProductDto;
+import repository.InMemoryProductRepository;
 import service.validation.ProductValidationException;
 
 public class ProductUniqueNameValidationRule implements ProductValidationRule {
 
-    Repository<Long, Product> repository;
+    InMemoryProductRepository repository;
 
-    public ProductUniqueNameValidationRule(Repository repository) {
+    public ProductUniqueNameValidationRule(InMemoryProductRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public void validate(Product product) {
-        if (repository.getNameList().contains(product.getName())) {
+    public void validate(ProductDto productDto) {
+        if (repository.getNameList().contains(productDto.getName())) {
             throw new ProductValidationException("Product name must be unique.");
         }
     }
