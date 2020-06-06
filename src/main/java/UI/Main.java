@@ -35,8 +35,8 @@ public class Main extends Application {
                 new ProductDescriptionValidationRule()
         );
         ProductValidator validator = new DefaultProductValidator(listOfRules);
-        DiscountService discountService = new ProductDiscountService(repository);
         ProductDtoEntityConverter converter = new ProductDtoEntityConverter();
+        DiscountService discountService = new ProductDiscountService(repository, converter);
         ProductService productService = new DefaultProductService(repository, validator, discountService, converter);
         controller.injectService(productService);
         primaryStage.setTitle("Product service Application");
