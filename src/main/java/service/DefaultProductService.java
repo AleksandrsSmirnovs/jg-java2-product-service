@@ -1,33 +1,43 @@
 package service;
 
+import converters.ProductDtoEntityConverter;
+import domain.ProductEntity;
+import dto.ProductDto;
 import service.discount.DiscountService;
 import service.validation.ProductValidator;
-import domain.*;
+import domain.ProductCategory;
 import repository.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultProductService implements ProductService {
 
-    private final Repository<Long, Product> repository;
+    private final Repository<Long, ProductEntity> repository;
     private final ProductValidator validator;
     private final DiscountService discountService;
+    private final ProductDtoEntityConverter converter;
 
-    public DefaultProductService(Repository repository, ProductValidator validator, DiscountService discountService) {
+    public DefaultProductService(Repository repository,
+                                 ProductValidator validator,
+                                 DiscountService discountService,
+                                 ProductDtoEntityConverter converter) {
         this.repository = repository;
         this.validator = validator;
         this.discountService = discountService;
+        this.converter = converter;
     }
 
     @Override
-    public List<Product> findAll() {
-        return repository.findAll();
+    public List<ProductDto> findAll() {
+
+        return repository.findAll().stream().map(converter::toDto).collect(Collectors.toList());
     }
 
     @Override
-    public Product findByID(Long id) {
-        return repository.findByID(id);
+    public ProductDto findByID(Long id) {
+        return converter.toDto(repository.findByID(id));
     }
 
     @Override
@@ -36,39 +46,66 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public void save(Product product){
-        validator.validateProduct(product);
-        checkForCategoryDiscount(product);
-        repository.save(product);
+    public void save(ProductDto dto){
+        validator.validateProduct(dto);
+        checkForCategoryDiscount(dto);
+        repository.save(converter.toEntity(dto));
     }
 
     @Override
-    public void setDiscount(Product product, BigDecimal discount) {
-        save(new Product(product.getId(), product.getCategory(), product.getName(), product.getPrice(), discount, product.getDescription()));
+    public void setDiscount(ProductDto dto, BigDecimal discount) {
+        dto.setDiscount(discount);
+        save(dto);
     }
 
     @Override
     public void setDiscountForCategory(ProductCategory category, BigDecimal discount) {
         discountService.setDiscountForCategory(category, discount);
-        for (Product product : findAll()){
-            if (product.getCategory().equals(category)){
-                product.setDiscount(discount);
-                save(product);
+        for (ProductEntity entity : repository.findAll()){
+            if (entity.getCategory().equals(category)){
+                entity.setDiscount(discount);
+                repository.save(entity);
             }
         }
     }
 
-    private void checkForCategoryDiscount(Product product){
-        discountService.checkForCategoryDiscount(product);
+    private void checkForCategoryDiscount(ProductDto productDto){
+        discountService.checkForCategoryDiscount(productDto);
     }
 
     public void fillSampleData() {
-            save(new Product(ProductCategory.FRUIT, "Lemon", BigDecimal.valueOf(0.5), new BigDecimal("50"), "dasdf"));
-            save(new Product(ProductCategory.DUMPLINGS, "Pelmen", BigDecimal.valueOf(3.8)));
-            save(new Product(ProductCategory.VEGETABLE, "Potato", BigDecimal.valueOf(0.4)));
-            save(new Product(ProductCategory.MEAT, "Beef", BigDecimal.valueOf(6.5)));
-            save(new Product(ProductCategory.SOFT_DRINKS, "Fanta", BigDecimal.valueOf(1.0)));
-            save(new Product(ProductCategory.FRUIT, "Orange", BigDecimal.valueOf(0.8)));
+        save(new ProductDto.Builder()
+                .buildCategory(ProductCategory.FRUIT)
+                .buildName("Lemon")
+                .buildPrice(BigDecimal.valueOf(0.5))
+                .buildDiscount(BigDecimal.valueOf(50))
+                .buildDescription("dasdf")
+                .build());
+        save(new ProductDto.Builder()
+                .buildCategory(ProductCategory.DUMPLINGS)
+                .buildName("Pelmen")
+                .buildPrice(BigDecimal.valueOf(3.8))
+                .build());
+        save(new ProductDto.Builder()
+                .buildCategory(ProductCategory.VEGETABLE)
+                .buildName("Potato")
+                .buildPrice(BigDecimal.valueOf(0.4))
+                .build());
+        save(new ProductDto.Builder()
+                .buildCategory(ProductCategory.MEAT)
+                .buildName("Beef")
+                .buildPrice(BigDecimal.valueOf(6.5))
+                .build());
+        save(new ProductDto.Builder()
+                .buildCategory(ProductCategory.SOFT_DRINKS)
+                .buildName("Fanta")
+                .buildPrice(BigDecimal.valueOf(1.0))
+                .build());
+        save(new ProductDto.Builder()
+                .buildCategory(ProductCategory.FRUIT)
+                .buildName("Orange")
+                .buildPrice(BigDecimal.valueOf(0.8))
+                .build());
     }
 
 

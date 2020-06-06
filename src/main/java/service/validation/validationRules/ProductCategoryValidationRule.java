@@ -1,11 +1,11 @@
 package service.validation.validationRules;
 
+import dto.ProductDto;
 import service.validation.ProductValidationException;
-import domain.Product;
 
 public class ProductCategoryValidationRule implements ProductValidationRule {
     @Override
-    public void validate(Product product){
-        if (product.getCategory() == null) throw new ProductValidationException("Product category must not be null.");
+    public void validate(ProductDto productDto){
+        if (productDto.getCategory() == null) throw new ProductValidationException("Product category must not be null.");
     }
 }

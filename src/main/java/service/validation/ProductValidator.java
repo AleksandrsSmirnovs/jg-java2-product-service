@@ -1,9 +1,10 @@
 package service.validation;
 
-import domain.Product;
+import domain.ProductEntity;
+import dto.ProductDto;
 
 public interface ProductValidator {
 
-    void validateProduct(Product product);
+    void validateProduct(ProductDto productDto);
 
 }

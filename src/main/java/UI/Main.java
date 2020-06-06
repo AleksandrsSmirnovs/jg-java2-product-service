@@ -1,5 +1,6 @@
 package UI;
 
+import converters.ProductDtoEntityConverter;
 import repository.InMemoryProductRepository;
 import repository.Repository;
 import service.DefaultProductService;
@@ -35,7 +36,8 @@ public class Main extends Application {
         );
         ProductValidator validator = new DefaultProductValidator(listOfRules);
         DiscountService discountService = new ProductDiscountService(repository);
-        ProductService productService = new DefaultProductService(repository, validator, discountService);
+        ProductDtoEntityConverter converter = new ProductDtoEntityConverter();
+        ProductService productService = new DefaultProductService(repository, validator, discountService, converter);
         controller.injectService(productService);
         primaryStage.setTitle("Product service Application");
         primaryStage.setScene(new Scene(root, 910, 410));

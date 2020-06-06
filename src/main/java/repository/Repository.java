@@ -12,6 +12,4 @@ public interface Repository<ID, T>{
 
     void delete(ID id);
 
-    List<String> getNameList();
-
 }

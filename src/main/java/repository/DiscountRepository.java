@@ -1,8 +1,10 @@
 package repository;
 
+import java.math.BigDecimal;
+
 public interface DiscountRepository<CAT, DI, T> {
 
     void setDiscountForCategory(CAT category, DI discount);
 
-    void checkForCategoryDiscount(T entity);
+    BigDecimal checkCategoryDiscount(T entity);
 }

@@ -1,7 +1,8 @@
 package service.validation;
 
+import domain.ProductEntity;
+import dto.ProductDto;
 import service.validation.validationRules.*;
-import domain.Product;
 
 import java.util.List;
 
@@ -15,10 +16,10 @@ public class DefaultProductValidator implements ProductValidator {
     }
 
     @Override
-    public void validateProduct(Product product){
+    public void validateProduct(ProductDto productDto){
         listOfRules.forEach(rule -> {
             try {
-                rule.validate(product);
+                rule.validate(productDto);
             } catch (ProductValidationException e) {
                 messageList.append(e.getMessage()).append("\n");
             }

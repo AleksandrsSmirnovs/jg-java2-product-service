@@ -1,7 +1,7 @@
 package UI;
 
 import domain.*;
-import service.DefaultProductService;
+import dto.ProductDto;
 import service.ProductService;
 import service.validation.ProductValidationException;
 import javafx.collections.FXCollections;
@@ -18,16 +18,16 @@ public class MainController {
 
     private ProductService service;
 
-    ObservableList<Product> observableList;
+    ObservableList<ProductDto> observableList;
 
-    @FXML private TableView<Product> tableProducts;
-    @FXML private TableColumn<Product, Long> columnID;
-    @FXML private TableColumn<Product, String> columnName;
-    @FXML private TableColumn<Product, ProductCategory> columnCategory;
-    @FXML private TableColumn<Product, BigDecimal> columnPrice;
-    @FXML private TableColumn<Product, BigDecimal> columnDiscount;
-    @FXML private TableColumn<Product, BigDecimal> columnActualPrice;
-    @FXML private TableColumn<Product, String> columnDescription;
+    @FXML private TableView<ProductDto> tableProducts;
+    @FXML private TableColumn<ProductDto, Long> columnID;
+    @FXML private TableColumn<ProductDto, String> columnName;
+    @FXML private TableColumn<ProductDto, ProductCategory> columnCategory;
+    @FXML private TableColumn<ProductDto, BigDecimal> columnPrice;
+    @FXML private TableColumn<ProductDto, BigDecimal> columnDiscount;
+    @FXML private TableColumn<ProductDto, BigDecimal> columnActualPrice;
+    @FXML private TableColumn<ProductDto, String> columnDescription;
     @FXML private Button btnSearch;
     @FXML private Button btnAdd;
     @FXML private Button btnEdit;
@@ -57,13 +57,13 @@ public class MainController {
 
 
     @FXML private void initialize(){
-        columnID.setCellValueFactory(new PropertyValueFactory<Product, Long>("id"));
-        columnName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
-        columnPrice.setCellValueFactory(new PropertyValueFactory<Product, BigDecimal>("price"));
-        columnCategory.setCellValueFactory(new PropertyValueFactory<Product, ProductCategory>("category"));
-        columnDiscount.setCellValueFactory(new PropertyValueFactory<Product, BigDecimal>("discount"));
-        columnActualPrice.setCellValueFactory(new PropertyValueFactory<Product, BigDecimal>("actualPrice"));
-        columnDescription.setCellValueFactory(new PropertyValueFactory<Product, String>("description"));
+        columnID.setCellValueFactory(new PropertyValueFactory<ProductDto, Long>("id"));
+        columnName.setCellValueFactory(new PropertyValueFactory<ProductDto, String>("name"));
+        columnPrice.setCellValueFactory(new PropertyValueFactory<ProductDto, BigDecimal>("price"));
+        columnCategory.setCellValueFactory(new PropertyValueFactory<ProductDto, ProductCategory>("category"));
+        columnDiscount.setCellValueFactory(new PropertyValueFactory<ProductDto, BigDecimal>("discount"));
+        columnActualPrice.setCellValueFactory(new PropertyValueFactory<ProductDto, BigDecimal>("actualPrice"));
+        columnDescription.setCellValueFactory(new PropertyValueFactory<ProductDto, String>("description"));
     }
 
     public void injectService(ProductService service) {
@@ -76,13 +76,13 @@ public class MainController {
         if (!(source instanceof Button)) {return;}
 
         Button clickedButton = (Button)source;
-        Product selectedProduct = tableProducts.getSelectionModel().getSelectedItem();
+        ProductDto selectedProductDto = tableProducts.getSelectionModel().getSelectedItem();
 
         switch (clickedButton.getId()){
             case "btnSearch":
                 try {
-                    Product product = service.findByID(Long.parseLong(fldSearchByID.getText()));
-                    setOutputText(product.toString());
+                    ProductDto productDto = service.findByID(Long.parseLong(fldSearchByID.getText()));
+                    setOutputText(productDto.toString());
                     break;
                 } catch (NullPointerException e) {
                     setOutputText("Item not found!");
@@ -98,8 +98,8 @@ public class MainController {
                 activateFields(boxSettings);
                 break;
             case "btnEdit":
-                fillFields(selectedProduct);
-                if (selectedProduct!=null) {
+                fillFields(selectedProductDto);
+                if (selectedProductDto !=null) {
                     activateFields(boxSettings);
                 }
                 break;
@@ -109,7 +109,7 @@ public class MainController {
             case "btnRemove":
                 deactivateUnnecessaryFields();
                 try {
-                    service.delete(selectedProduct.getId());
+                    service.delete(selectedProductDto.getId());
                      actionRefresh();
                      break;
                 } catch (NullPointerException e){
@@ -125,9 +125,10 @@ public class MainController {
                 clearFields();
                 break;
             case "btnSave":
-                if (isNew) {selectedProduct = null;}
+                if (isNew) {
+                    selectedProductDto = null;}
                 try {
-                    service.save(getProductFromFields(selectedProduct));
+                    service.save(createProductFromFields(selectedProductDto));
                     clearFields();
                     deactivateUnnecessaryFields();
                     actionRefresh();
@@ -209,13 +210,13 @@ public class MainController {
         return category;
     }
 
-    public void fillFields(Product selectedProduct){
-        if (selectedProduct!=null) {
-            menuButton.setText(selectedProduct.getCategory().toString());
-            fldName.setText(selectedProduct.getName());
-            fldPrice.setText(selectedProduct.getPrice().toString());
-            fldDiscount.setText(selectedProduct.getDiscount().toString());
-            fldDescription.setText(selectedProduct.getDescription());
+    public void fillFields(ProductDto selectedProductDto){
+        if (selectedProductDto !=null) {
+            menuButton.setText(selectedProductDto.getCategory().toString());
+            fldName.setText(selectedProductDto.getName());
+            fldPrice.setText(selectedProductDto.getPrice().toString());
+            fldDiscount.setText(selectedProductDto.getDiscount().toString());
+            fldDescription.setText(selectedProductDto.getDescription());
             boxSettings.setVisible(true);
         } else {
             setOutputText("Please select product!");
@@ -228,10 +229,10 @@ public class MainController {
     }
 
 
-    public Product getProductFromFields(Product selectedProduct){
+    public ProductDto createProductFromFields(ProductDto selectedProductDto){
         Long id;
-        if (selectedProduct!=null){
-           id = selectedProduct.getId();
+        if (selectedProductDto != null){
+           id = selectedProductDto.getId();
         } else {
             id = null;
         }
@@ -246,8 +247,15 @@ public class MainController {
         }
         String description = fldDescription.getText();
 
-        Product product = new Product(id, category, name, price, discount, description);
-        return product;
+        ProductDto productDto = new ProductDto.Builder()
+                .buildId(id)
+                .buildCategory(category)
+                .buildName(name)
+                .buildPrice(price)
+                .buildDiscount(discount)
+                .buildDescription(description)
+                .build();
+        return productDto;
     }
 
     public void deactivateUnnecessaryFields(){

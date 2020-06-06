@@ -15,4 +15,20 @@ module UI {
 
     opens repository to javafx.fxml, javafx.controls, javafx.base, javafx.graphics;
     exports repository;
+
+//    opens converters to javafx.fxml, javafx.controls, javafx.base, javafx.graphics;
+//    exports converters;
+//
+//    opens dto to javafx.fxml, javafx.controls, javafx.base, javafx.graphics;
+//    exports dto;
+//
+//    opens service.validation to javafx.fxml, javafx.controls, javafx.base, javafx.graphics;
+//    exports service.validation;
+//
+//    opens service.validation.validationRules to javafx.fxml, javafx.controls, javafx.base, javafx.graphics;
+//    exports service.validation.validationRules;
+//
+//    opens service.discount to javafx.fxml, javafx.controls, javafx.base, javafx.graphics;
+//    exports service.discount;
+
             }
