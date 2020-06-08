@@ -15,7 +15,7 @@ public class InMemoryProductRepository implements Repository<Long, ProductEntity
     private static Long SEQ = 0L;
 
     Map<Long, ProductEntity> index = new HashMap<>();
-    private Map<ProductCategory, BigDecimal> categoryDiscounts = new HashMap<>();
+    Map<ProductCategory, BigDecimal> categoryDiscounts = new HashMap<>();
 
     @Override
     public List<ProductEntity> findAll() {
