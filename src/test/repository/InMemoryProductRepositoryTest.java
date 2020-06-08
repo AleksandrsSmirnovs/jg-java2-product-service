@@ -147,4 +147,29 @@ public class InMemoryProductRepositoryTest {
         assertThat(victim.getNameList()).containsExactlyInAnyOrder("Lemon", "Pelmen", "Potato");
     }
 
+    @Test
+    public void should_return_zero_when_category_discount_not_found() {
+        setUpSampleMap();
+        assertThat(victim.checkCategoryDiscount(new ProductEntity.ProductBuilder("Beef", BigDecimal.valueOf(6.5))
+                .buildId(3L)
+                .buildCategory(ProductCategory.MEAT)
+                .build())).isEqualTo(BigDecimal.ZERO);
+    }
+
+    @Test
+    public void should_return_category_discount_if_present() {
+        setUpSampleMap();
+        victim.categoryDiscounts.put(ProductCategory.MEAT, BigDecimal.valueOf(25));
+        assertThat(victim.checkCategoryDiscount(new ProductEntity.ProductBuilder("Beef", BigDecimal.valueOf(6.5))
+                .buildId(3L)
+                .buildCategory(ProductCategory.MEAT)
+                .build())).isEqualTo(BigDecimal.valueOf(25));
+    }
+
+    @Test
+    public void should_set_category_discount() {
+        victim.setDiscountForCategory(ProductCategory.DUMPLINGS, BigDecimal.valueOf(30));
+        assertThat(victim.categoryDiscounts).hasEntrySatisfying(ProductCategory.DUMPLINGS, value -> BigDecimal.valueOf(30));
+    }
+
 }
