@@ -132,7 +132,7 @@
                <children>
                   <VBox prefHeight="250.0" prefWidth="70.0">
                      <children>
-                        <Label prefHeight="17.0" prefWidth="62.0" text="Category*">
+                        <Label prefHeight="17.0" prefWidth="62.0" text="Category">
                            <VBox.margin>
                               <Insets bottom="10.0" left="15.0" top="10.0" />
                            </VBox.margin>

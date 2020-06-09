@@ -16,8 +16,6 @@ public interface ProductService {
 
     void delete(Long id);
 
-    void setDiscount(ProductDto productDto, BigDecimal discount);
-
     void setDiscountForCategory(ProductCategory category, BigDecimal discount);
 
     void fillSampleData();

@@ -9,17 +9,21 @@ import java.util.List;
 public class DefaultProductValidator implements ProductValidator {
 
     private final List<ProductValidationRule> listOfRules;
-    private StringBuilder messageList = new StringBuilder();
+
 
     public DefaultProductValidator(List<ProductValidationRule> listOfRules){
         this.listOfRules = listOfRules;
     }
 
     @Override
-    public void validateProduct(ProductDto productDto){
+    public void validateProduct(ProductDto dto){
+        if (dto == null) {
+            throw new ProductValidationException("Product must be not null");
+        }
+        StringBuilder messageList = new StringBuilder();
         listOfRules.forEach(rule -> {
             try {
-                rule.validate(productDto);
+                rule.validate(dto);
             } catch (ProductValidationException e) {
                 messageList.append(e.getMessage()).append("\n");
             }
