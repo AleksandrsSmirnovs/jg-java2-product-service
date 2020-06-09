@@ -16,7 +16,7 @@ public class ProductDiscountValidationRule implements ProductValidationRule {
         if (productDto.getDiscount().compareTo(BigDecimal.valueOf(100)) >= 0) {
             throw new ProductValidationException("Product discount can't be more than 100%.");
         }
-        if (productDto.getPrice().compareTo(BigDecimal.valueOf(20)) < 0) {
+        if ((productDto.getPrice() != null) && (productDto.getPrice().compareTo(BigDecimal.valueOf(20)) < 0)) {
             productDto.setDiscount(BigDecimal.ZERO);
         }
     }

@@ -1,5 +1,6 @@
 package UI;
 
+import converters.ProductConvertionException;
 import domain.*;
 import dto.ProductDto;
 import service.ProductService;
@@ -76,98 +77,128 @@ public class MainController {
         if (!(source instanceof Button)) {return;}
 
         Button clickedButton = (Button)source;
-        ProductDto selectedProductDto = tableProducts.getSelectionModel().getSelectedItem();
+        ProductDto selected = tableProducts.getSelectionModel().getSelectedItem();
 
         switch (clickedButton.getId()){
             case "btnSearch":
-                try {
-                    ProductDto productDto = service.findByID(Long.parseLong(fldSearchByID.getText()));
-                    setOutputText(productDto.toString());
-                    break;
-                } catch (NullPointerException e) {
-                    setOutputText("Item not found!");
-                    break;
-                } catch (NumberFormatException e){
-                    setOutputText("Please enter ID number!");
-                    break;
-                }
+                searchButtonAction();
+                break;
             case "btnAdd":
-                fldError.setVisible(false);
-                clearFields();
-                isNew = true;
-                activateFields(boxSettings);
+                addButtonAction();
                 break;
             case "btnEdit":
-                fillFields(selectedProductDto);
-                if (selectedProductDto !=null) {
-                    activateFields(boxSettings);
-                }
+                editButtonAction(selected);
                 break;
             case "btnSetDiscounts":
-                activateFields(boxDiscounts);
+                setDiscountsButtonAction();
                 break;
             case "btnRemove":
-                deactivateUnnecessaryFields();
-                try {
-                    service.delete(selectedProductDto.getId());
-                     actionRefresh();
-                     break;
-                } catch (NullPointerException e){
-                    setOutputText("Please select item to remove!");
-                    break;
-                }
+                removeButtonAction(selected);
+                break;
             case "btnSample":
-                deactivateUnnecessaryFields();
-                service.fillSampleData();
-                tableProducts.setItems(FXCollections.observableList(service.findAll()));
+                sampleButtonAction();
                 break;
             case "btnClear":
-                clearFields();
+                clearButtonAction();
                 break;
             case "btnSave":
-                if (isNew) {
-                    selectedProductDto = null;}
-                try {
-                    service.save(createProductFromFields(selectedProductDto));
-                    clearFields();
-                    deactivateUnnecessaryFields();
-                    actionRefresh();
-                    isNew = false;
-                } catch (ProductValidationException e){
-                    setOutputText(e.getMessage());
-                    break;
-                } catch (NumberFormatException e){
-                    setOutputText(invalidInput);
-                    break;
-                } catch (IllegalArgumentException e){
-                    setOutputText(invalidInput);
-                }
+                saveButtonAction(selected);
                 break;
             case "btnCancel":
-                clearFields();
-                deactivateUnnecessaryFields();
+                cancelButtonAction();
                 break;
             case "btnSaveDiscounts":
-                try {
-                    if (getCategoryFromMenu(menuButton2)==null){
-                        setOutputText("Please select category");
-                        break;
-                    }
-                    service.setDiscountForCategory(getCategoryFromMenu(menuButton2), new BigDecimal(fldMultidiscount.getText()));
-                    actionRefresh();
-                    deactivateUnnecessaryFields();
-                } catch (NumberFormatException e){
-                    setOutputText("Make sure you enter digits into discount field");
-                    break;
-                } catch (ProductValidationException e){
-                    setOutputText(e.getMessage());
-                    break;
-                }
+                saveDiscountsButtonAction();
                 break;
         }
     }
 
-    public void clearFields(){
+    private void searchButtonAction() {
+        try {
+            ProductDto dto = service.findByID(Long.parseLong(fldSearchByID.getText()));
+            setOutputText(dto.toString());
+        } catch (NumberFormatException e){
+            setOutputText("Please enter ID number!");
+        } catch (ProductConvertionException e) {
+            setOutputText(e.getMessage());
+        }
+    }
+
+    private void addButtonAction() {
+        fldError.setVisible(false);
+        clearFields();
+        isNew = true;
+        activateFields(boxSettings);
+    }
+
+    private void setDiscountsButtonAction() {
+        activateFields(boxDiscounts);
+    }
+
+    private void sampleButtonAction() {
+        deactivateUnnecessaryFields();
+        service.fillSampleData();
+        tableProducts.setItems(FXCollections.observableList(service.findAll()));
+    }
+
+    private void clearButtonAction() {
+        clearFields();
+    }
+
+    private void cancelButtonAction() {
+        clearFields();
+        deactivateUnnecessaryFields();
+    }
+
+    private void editButtonAction(ProductDto selected) {
+        fillFields(selected);
+        if (selected !=null) {
+            activateFields(boxSettings);
+        }
+    }
+
+    private void removeButtonAction(ProductDto selected) {
+        deactivateUnnecessaryFields();
+        try {
+            service.delete(selected.getId());
+            actionRefresh();
+        } catch (NullPointerException e){
+            setOutputText("Please select item to remove!");
+        }
+    }
+
+    private void saveButtonAction(ProductDto selected) {
+        if (isNew) {
+            selected = null;}
+        try {
+            service.save(createProductFromFields(selected));
+            clearFields();
+            deactivateUnnecessaryFields();
+            actionRefresh();
+            isNew = false;
+        } catch (ProductValidationException e){
+            setOutputText(e.getMessage());
+        } catch (IllegalArgumentException e){
+            setOutputText(invalidInput);
+        }
+    }
+
+    private void saveDiscountsButtonAction() {
+        try {
+            if (getCategoryFromMenu(menuButton2)==null){
+                setOutputText("Please select category");
+            }
+            service.setDiscountForCategory(getCategoryFromMenu(menuButton2), new BigDecimal(fldMultidiscount.getText()));
+            actionRefresh();
+            deactivateUnnecessaryFields();
+        } catch (NumberFormatException e){
+            setOutputText("Make sure you enter digits into discount field");
+        } catch (ProductValidationException e){
+            setOutputText(e.getMessage());
+        }
+    }
+
+    private void clearFields(){
         menuButton.setText("Category:");
         fldName.clear();
         fldPrice.clear();
@@ -176,7 +207,7 @@ public class MainController {
         fldError.clear();
     }
 
-    public void actionRefresh(){
+    private void actionRefresh(){
         tableProducts.setItems(FXCollections.observableList(service.findAll()));
         tableProducts.refresh();
     }
@@ -200,7 +231,7 @@ public class MainController {
     }
 
 
-    public ProductCategory getCategoryFromMenu(MenuButton menuButton){
+    private ProductCategory getCategoryFromMenu(MenuButton menuButton){
         ProductCategory category = null;
         try {
             category = ProductCategory.valueOf(menuButton.getText());
@@ -210,7 +241,7 @@ public class MainController {
         return category;
     }
 
-    public void fillFields(ProductDto selectedProductDto){
+    private void fillFields(ProductDto selectedProductDto){
         if (selectedProductDto !=null) {
             menuButton.setText(selectedProductDto.getCategory().toString());
             fldName.setText(selectedProductDto.getName());
@@ -223,42 +254,37 @@ public class MainController {
         }
     }
 
-    public void setOutputText(String message){
+    private void setOutputText(String message){
         fldError.setText(message);
         fldError.setVisible(true);
     }
 
 
-    public ProductDto createProductFromFields(ProductDto selectedProductDto){
-        Long id;
-        if (selectedProductDto != null){
-           id = selectedProductDto.getId();
-        } else {
-            id = null;
-        }
-        ProductCategory category = getCategoryFromMenu(menuButton);
-        String name = fldName.getText();
-        BigDecimal price = new BigDecimal(fldPrice.getText());
-        BigDecimal discount;
-        try {
-            discount = new BigDecimal(fldDiscount.getText());
-        } catch (NumberFormatException e){
-            discount = BigDecimal.ZERO;
-        }
-        String description = fldDescription.getText();
+    private ProductDto createProductFromFields(ProductDto selected){
+        Long id = (selected == null) ? null : selected.getId();
+//        ProductCategory category = getCategoryFromMenu(menuButton);
+//        String name = fldName.getText();
+//        BigDecimal price = new BigDecimal(fldPrice.getText());
+//        BigDecimal discount;
+////        try {
+//            discount = new BigDecimal(fldDiscount.getText());
+////        } catch (NumberFormatException e){
+////            discount = BigDecimal.ZERO;
+////        }
+//        String description = fldDescription.getText();
 
-        ProductDto productDto = new ProductDto.Builder()
+        ProductDto dto = new ProductDto.Builder()
                 .buildId(id)
-                .buildCategory(category)
-                .buildName(name)
-                .buildPrice(price)
-                .buildDiscount(discount)
-                .buildDescription(description)
+                .buildCategory(getCategoryFromMenu(menuButton))
+                .buildName(fldName.getText())
+                .buildPrice(new BigDecimal(fldPrice.getText()))
+                .buildDiscount(new BigDecimal(fldDiscount.getText().isBlank() ? "0" : fldDiscount.getText()))
+                .buildDescription(fldDescription.getText())
                 .build();
-        return productDto;
+        return dto;
     }
 
-    public void deactivateUnnecessaryFields(){
+    private void deactivateUnnecessaryFields(){
         boxSettings.setOpacity(0.3);
         boxDiscounts.setOpacity(0.3);
         boxSettings.setDisable(true);
@@ -266,7 +292,7 @@ public class MainController {
         fldError.setVisible(false);
     }
 
-    public void activateFields(HBox box){
+    private void activateFields(HBox box){
         box.setOpacity(1);
         box.setDisable(false);
     }

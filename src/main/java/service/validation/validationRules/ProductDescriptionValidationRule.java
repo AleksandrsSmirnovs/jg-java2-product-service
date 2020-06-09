@@ -6,8 +6,8 @@ import service.validation.ProductValidationException;
 public class ProductDescriptionValidationRule implements ProductValidationRule {
     @Override
     public void validate(ProductDto productDto) {
-        if ((productDto.getDescription()!=null)&&(productDto.getDescription().length()>100)){
-            throw new ProductValidationException("Too long description.");
+        if ((productDto.getDescription()!=null)&&(productDto.getDescription().length()>60)){
+            throw new ProductValidationException("Description is too long.");
         }
     }
 }

@@ -47,30 +47,16 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void save(ProductDto dto){
+        if ((dto.getCategory() != null) && (discountService.getCategoryDiscount(dto).compareTo(BigDecimal.ZERO) != 0)) {
+            discountService.setDiscountForProduct(dto, discountService.getCategoryDiscount(dto));
+        }
         validator.validateProduct(dto);
-        checkForCategoryDiscount(dto);
         repository.save(converter.toEntity(dto));
-    }
-
-    @Override
-    public void setDiscount(ProductDto dto, BigDecimal discount) {
-        dto.setDiscount(discount);
-        save(dto);
     }
 
     @Override
     public void setDiscountForCategory(ProductCategory category, BigDecimal discount) {
         discountService.setDiscountForCategory(category, discount);
-        for (ProductEntity entity : repository.findAll()){
-            if (entity.getCategory().equals(category)){
-                entity.setDiscount(discount);
-                repository.save(entity);
-            }
-        }
-    }
-
-    private void checkForCategoryDiscount(ProductDto productDto){
-        discountService.checkForCategoryDiscount(productDto);
     }
 
     public void fillSampleData() {

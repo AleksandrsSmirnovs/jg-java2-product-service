@@ -61,9 +61,9 @@ public class ProductDto {
     private ProductDto(Builder builder) {
         id = builder.id;
         name = builder.name;
-        price = builder.price;
+        price = builder.price == null ? builder.price : builder.price.setScale(2, RoundingMode.HALF_EVEN);
         category = builder.category == null ? ProductCategory.UNDEFINED : builder.category;
-        discount = builder.discount == null ? BigDecimal.ZERO : builder.discount;
+        discount = builder.discount == null ? BigDecimal.ZERO : builder.discount.setScale(2, RoundingMode.HALF_EVEN);
         description = builder.description == null ? "" : builder.description;
     }
 
@@ -119,13 +119,12 @@ public class ProductDto {
 
     @Override
     public String toString() {
-        return "ProductDto{" +
-                "id=" + id +
-                ", category=" + category +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", discount=" + discount +
-                ", description='" + description + '\'' +
-                '}';
+        return "Product id :" + id +
+                "\nCategory: " + category +
+                "\nName: " + name +
+                "\nRegular price: " + price.setScale(2) +
+                "\nDiscount: " + discount.setScale(2) + "%" +
+                "\nActual price: " + getActualPrice().setScale(2) +
+                "\nDescription: " + description;
     }
 }

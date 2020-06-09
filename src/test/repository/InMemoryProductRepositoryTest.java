@@ -19,7 +19,7 @@ public class InMemoryProductRepositoryTest {
         victim = new InMemoryProductRepository();
     }
 
-    public void setUpSampleMap() {
+    private void setUpSampleMap() {
         victim.index.put(1L, new ProductEntity.ProductBuilder("Lemon", BigDecimal.valueOf(0.5))
                 .buildId(1L)
                 .buildCategory(ProductCategory.FRUIT)
@@ -150,7 +150,7 @@ public class InMemoryProductRepositoryTest {
     @Test
     public void should_return_zero_when_category_discount_not_found() {
         setUpSampleMap();
-        assertThat(victim.checkCategoryDiscount(new ProductEntity.ProductBuilder("Beef", BigDecimal.valueOf(6.5))
+        assertThat(victim.getCategoryDiscount(new ProductEntity.ProductBuilder("Beef", BigDecimal.valueOf(6.5))
                 .buildId(3L)
                 .buildCategory(ProductCategory.MEAT)
                 .build())).isEqualTo(BigDecimal.ZERO);
@@ -160,7 +160,7 @@ public class InMemoryProductRepositoryTest {
     public void should_return_category_discount_if_present() {
         setUpSampleMap();
         victim.categoryDiscounts.put(ProductCategory.MEAT, BigDecimal.valueOf(25));
-        assertThat(victim.checkCategoryDiscount(new ProductEntity.ProductBuilder("Beef", BigDecimal.valueOf(6.5))
+        assertThat(victim.getCategoryDiscount(new ProductEntity.ProductBuilder("Beef", BigDecimal.valueOf(6.5))
                 .buildId(3L)
                 .buildCategory(ProductCategory.MEAT)
                 .build())).isEqualTo(BigDecimal.valueOf(25));

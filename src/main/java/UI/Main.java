@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import service.validation.ProductValidator;
 import service.validation.validationRules.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Main extends Application {
@@ -36,7 +37,8 @@ public class Main extends Application {
         );
         ProductValidator validator = new DefaultProductValidator(listOfRules);
         ProductDtoEntityConverter converter = new ProductDtoEntityConverter();
-        DiscountService discountService = new ProductDiscountService(repository, converter);
+        ProductDiscountValidationRule discountValidationRule = new ProductDiscountValidationRule();
+        DiscountService discountService = new ProductDiscountService(repository, converter, discountValidationRule);
         ProductService productService = new DefaultProductService(repository, validator, discountService, converter);
         controller.injectService(productService);
         primaryStage.setTitle("Product service Application");

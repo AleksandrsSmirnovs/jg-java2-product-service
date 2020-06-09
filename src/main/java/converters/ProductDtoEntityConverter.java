@@ -15,6 +15,7 @@ public class ProductDtoEntityConverter {
     }
 
     public ProductDto toDto (ProductEntity entity) {
+        if (entity == null) throw new ProductConvertionException("Item not found.");
         return new ProductDto.Builder()
                 .buildId(entity.getId())
                 .buildName(entity.getName())

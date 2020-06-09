@@ -54,7 +54,7 @@ public class InMemoryProductRepository implements Repository<Long, ProductEntity
     }
 
     @Override
-    public BigDecimal checkCategoryDiscount(ProductEntity entity){
+    public BigDecimal getCategoryDiscount(ProductEntity entity){
         return categoryDiscounts.get(entity.getCategory()) == null ? BigDecimal.ZERO : categoryDiscounts.get(entity.getCategory());
     }
 
