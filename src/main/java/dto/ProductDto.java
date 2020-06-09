@@ -8,12 +8,12 @@ import java.util.Objects;
 
 public class ProductDto {
 
-    private Long id;
-    private ProductCategory category;
-    private String name;
-    private BigDecimal price;
+    private final Long id;
+    private final ProductCategory category;
+    private final String name;
+    private final BigDecimal price;
     private BigDecimal discount;
-    private String description;
+    private final String description;
 
     public static class Builder {
         private Long id;

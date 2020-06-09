@@ -230,7 +230,6 @@ public class MainController {
         menuButton2.setText(choice.getText());
     }
 
-
     private ProductCategory getCategoryFromMenu(MenuButton menuButton){
         ProductCategory category = null;
         try {
@@ -259,19 +258,8 @@ public class MainController {
         fldError.setVisible(true);
     }
 
-
     private ProductDto createProductFromFields(ProductDto selected){
         Long id = (selected == null) ? null : selected.getId();
-//        ProductCategory category = getCategoryFromMenu(menuButton);
-//        String name = fldName.getText();
-//        BigDecimal price = new BigDecimal(fldPrice.getText());
-//        BigDecimal discount;
-////        try {
-//            discount = new BigDecimal(fldDiscount.getText());
-////        } catch (NumberFormatException e){
-////            discount = BigDecimal.ZERO;
-////        }
-//        String description = fldDescription.getText();
 
         ProductDto dto = new ProductDto.Builder()
                 .buildId(id)

@@ -28,7 +28,6 @@ public class Main extends Application {
         MainController controller = fxmlLoader.getController();
         InMemoryProductRepository repository = new InMemoryProductRepository();
         List<ProductValidationRule> listOfRules = List.of(
-                new ProductCategoryValidationRule(),
                 new ProductNameValidationRule(),
                 new ProductUniqueNameValidationRule(repository),
                 new ProductPriceValidationRule(),

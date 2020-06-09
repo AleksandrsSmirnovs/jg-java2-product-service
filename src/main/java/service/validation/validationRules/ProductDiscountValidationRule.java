@@ -7,17 +7,16 @@ import java.math.BigDecimal;
 
 public class ProductDiscountValidationRule implements ProductValidationRule {
 
-
     @Override
-    public void validate(ProductDto productDto) {
-        if (productDto.getDiscount().compareTo(BigDecimal.ZERO) < 0) {
+    public void validate(ProductDto dto) {
+        if (dto.getDiscount().compareTo(BigDecimal.ZERO) < 0) {
             throw new ProductValidationException("Product discount must be a positive number.");
         }
-        if (productDto.getDiscount().compareTo(BigDecimal.valueOf(100)) >= 0) {
+        if (dto.getDiscount().compareTo(BigDecimal.valueOf(100)) >= 0) {
             throw new ProductValidationException("Product discount can't be more than 100%.");
         }
-        if ((productDto.getPrice() != null) && (productDto.getPrice().compareTo(BigDecimal.valueOf(20)) < 0)) {
-            productDto.setDiscount(BigDecimal.ZERO);
+        if ((dto.getPrice() != null) && (dto.getPrice().compareTo(BigDecimal.valueOf(20)) < 0)) {
+            dto.setDiscount(BigDecimal.ZERO);
         }
     }
 }
