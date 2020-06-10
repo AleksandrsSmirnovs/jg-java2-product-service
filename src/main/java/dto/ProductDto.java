@@ -68,6 +68,7 @@ public class ProductDto {
     }
 
     public BigDecimal getActualPrice() {
+        if (price == null) return BigDecimal.ZERO;
         return discount == null ? price : price.subtract(price.multiply(discount).multiply(BigDecimal.valueOf(0.01))).setScale(2, RoundingMode.HALF_EVEN);
     }
 
