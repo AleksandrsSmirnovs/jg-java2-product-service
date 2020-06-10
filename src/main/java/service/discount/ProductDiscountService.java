@@ -33,15 +33,15 @@ public class ProductDiscountService implements DiscountService {
     @Override
     public void setDiscountForCategory(ProductCategory category, BigDecimal discount) {
         repository.setDiscountForCategory(category, discount);
-        for (ProductEntity entity : repository.findAll()
-                .stream()
-                .filter(entity -> entity.getCategory().equals(category))
-                .collect(Collectors.toList())) {
-            try {
-                setDiscountForProduct(converter.toDto(entity), discount);
-                validator.validate(converter.toDto(entity));
-                repository.save(entity);
-            } catch (ProductValidationException e) {
+        for (ProductEntity entity : repository.findAll()) {
+            if (entity.getCategory().equals(category)) {
+                ProductDto dto = converter.toDto(entity);
+                try {
+                    setDiscountForProduct(dto, discount);
+                    validator.validate(dto);
+                    repository.save(converter.toEntity(dto));
+                } catch (ProductValidationException e) {
+                }
             }
         }
     }

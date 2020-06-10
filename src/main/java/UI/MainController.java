@@ -29,18 +29,7 @@ public class MainController {
     @FXML private TableColumn<ProductDto, BigDecimal> columnDiscount;
     @FXML private TableColumn<ProductDto, BigDecimal> columnActualPrice;
     @FXML private TableColumn<ProductDto, String> columnDescription;
-    @FXML private Button btnSearch;
-    @FXML private Button btnAdd;
-    @FXML private Button btnEdit;
-    @FXML private Button btnSetDiscounts;
-    @FXML private Button btnRemove;
-    @FXML private Button btnSample;
-    @FXML private Button btnSave;
-    @FXML private Button btnClear;
-    @FXML private Button btnCancel;
-    @FXML private Button btnSaveDiscounts;
     @FXML private HBox boxSettings;
-    @FXML private HBox boxSearch;
     @FXML private HBox boxDiscounts;
     @FXML private MenuButton menuButton;
     @FXML private MenuButton menuButton2;

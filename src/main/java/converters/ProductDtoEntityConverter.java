@@ -6,6 +6,9 @@ import dto.ProductDto;
 public class ProductDtoEntityConverter {
 
     public ProductEntity toEntity(ProductDto dto) {
+        if (dto == null) throw new ProductConvertionException("Can't convert null.");
+        if (dto.getName() == null) throw new ProductConvertionException("Name must be not null.");
+        if (dto.getPrice() == null) throw new ProductConvertionException("Price must be not null.");
         return new ProductEntity.ProductBuilder(dto.getName(), dto.getPrice())
                 .buildId(dto.getId())
                 .buildCategory(dto.getCategory())
