@@ -23,7 +23,7 @@ public class ProductEntity {
 
         public ProductBuilder(String name, BigDecimal price) {
             this.name = name;
-            this.price = price.setScale(2);
+            this.price = price;
         }
 
         public ProductBuilder buildId(Long id) {
@@ -55,9 +55,9 @@ public class ProductEntity {
         id = builder.id;
         name = builder.name;
         price = builder.price;
-        category = builder.category == null ? ProductCategory.UNDEFINED : builder.category;
-        discount = builder.discount == null ? BigDecimal.ZERO.setScale(2) : builder.discount.setScale(2);
-        description = builder.description == null ? "" : builder.description;
+        category = builder.category;
+        discount = builder.discount;
+        description = builder.description;
     }
 
     public Long getId() {
