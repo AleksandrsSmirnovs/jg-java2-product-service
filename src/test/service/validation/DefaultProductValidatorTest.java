@@ -39,8 +39,8 @@ public class DefaultProductValidatorTest {
 
     @Before
     public void setUp() {
-        victim = new DefaultProductValidator(List.of(
-                productDescriptionValidationRule,
+         victim = new DefaultProductValidator(List.of(
+                 productDescriptionValidationRule,
                 productDiscountValidationRule,
                 productNameValidationRule,
                 productUniqueNameValidationRule,
