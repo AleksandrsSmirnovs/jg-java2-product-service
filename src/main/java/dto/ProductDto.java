@@ -53,7 +53,7 @@ public class ProductDto {
             return this;
         }
 
-        public ProductDto build(){
+        public ProductDto build() {
             return new ProductDto(this);
         }
     }

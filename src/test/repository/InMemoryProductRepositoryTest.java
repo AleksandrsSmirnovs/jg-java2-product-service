@@ -15,7 +15,7 @@ public class InMemoryProductRepositoryTest {
     private InMemoryProductRepository victim;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         victim = new InMemoryProductRepository();
     }
 
@@ -37,12 +37,12 @@ public class InMemoryProductRepositoryTest {
     }
 
     @Test
-    public void should_find_all_when_empty(){
+    public void should_find_all_when_empty() {
         assertThat(victim.findAll().isEmpty());
     }
 
     @Test
-    public void should_find_all_when_not_empty(){
+    public void should_find_all_when_not_empty() {
         setUpSampleMap();
         assertThat(victim.findAll()).containsExactlyInAnyOrder(
                 new ProductEntity.ProductBuilder("Lemon", BigDecimal.valueOf(0.5))
@@ -63,7 +63,7 @@ public class InMemoryProductRepositoryTest {
     }
 
     @Test
-    public void should_find_by_id(){
+    public void should_find_by_id() {
         setUpSampleMap();
         ProductEntity expected = new ProductEntity.ProductBuilder("Pelmen", BigDecimal.valueOf(3.8))
                 .buildId(2L)
@@ -74,13 +74,13 @@ public class InMemoryProductRepositoryTest {
     }
 
     @Test
-    public void should_return_null_when_not_found_by_id(){
+    public void should_return_null_when_not_found_by_id() {
         setUpSampleMap();
         assertThat(victim.findByID(8L)).isNull();
     }
 
     @Test
-    public void should_remove_by_id(){
+    public void should_remove_by_id() {
         setUpSampleMap();
         victim.delete(1L);
         assertThat(victim.findAll()).doesNotContain(new ProductEntity.ProductBuilder("Lemon", BigDecimal.valueOf(0.5))
@@ -92,7 +92,7 @@ public class InMemoryProductRepositoryTest {
     }
 
     @Test
-    public void should_remove_nothing_when_id_not_found(){
+    public void should_remove_nothing_when_id_not_found() {
         setUpSampleMap();
         InMemoryProductRepository victimBefore = victim;
         victim.delete(9L);
@@ -100,7 +100,7 @@ public class InMemoryProductRepositoryTest {
     }
 
     @Test
-    public void should_save_new_products(){
+    public void should_save_new_products() {
         victim.save(new ProductEntity.ProductBuilder("Beef", BigDecimal.valueOf(6.5))
                 .buildCategory(ProductCategory.MEAT)
                 .build());
@@ -124,7 +124,7 @@ public class InMemoryProductRepositoryTest {
     }
 
     @Test
-    public void should_overwrite_when_saving_product_when_id_already_present(){
+    public void should_overwrite_when_saving_product_when_id_already_present() {
         setUpSampleMap();
         victim.save(new ProductEntity.ProductBuilder("Beef", BigDecimal.valueOf(6.5))
                 .buildId(3L)

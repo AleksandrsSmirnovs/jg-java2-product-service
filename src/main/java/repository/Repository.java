@@ -2,7 +2,7 @@ package repository;
 
 import java.util.List;
 
-public interface Repository<ID, T>{
+public interface Repository<ID, T> {
 
     List<T> findAll();
 

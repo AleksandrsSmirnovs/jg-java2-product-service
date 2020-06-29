@@ -22,7 +22,7 @@ import java.util.List;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("MainStage.fxml"));
         Parent root = fxmlLoader.load();
         MainController controller = fxmlLoader.getController();
@@ -46,7 +46,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 }

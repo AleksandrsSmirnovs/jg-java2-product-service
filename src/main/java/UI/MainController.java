@@ -21,32 +21,52 @@ public class MainController {
 
     ObservableList<ProductDto> observableList;
 
-    @FXML private TableView<ProductDto> tableProducts;
-    @FXML private TableColumn<ProductDto, Long> columnID;
-    @FXML private TableColumn<ProductDto, String> columnName;
-    @FXML private TableColumn<ProductDto, ProductCategory> columnCategory;
-    @FXML private TableColumn<ProductDto, BigDecimal> columnPrice;
-    @FXML private TableColumn<ProductDto, BigDecimal> columnDiscount;
-    @FXML private TableColumn<ProductDto, BigDecimal> columnActualPrice;
-    @FXML private TableColumn<ProductDto, String> columnDescription;
-    @FXML private HBox boxSettings;
-    @FXML private HBox boxDiscounts;
-    @FXML private MenuButton menuButton;
-    @FXML private MenuButton menuButton2;
-    @FXML private TextField fldName;
-    @FXML private TextField fldPrice;
-    @FXML private TextField fldDiscount;
-    @FXML private TextArea fldDescription;
-    @FXML private TextArea fldError;
-    @FXML private TextField fldMultidiscount;
-    @FXML private TextField fldSearchByID;
+    @FXML
+    private TableView<ProductDto> tableProducts;
+    @FXML
+    private TableColumn<ProductDto, Long> columnID;
+    @FXML
+    private TableColumn<ProductDto, String> columnName;
+    @FXML
+    private TableColumn<ProductDto, ProductCategory> columnCategory;
+    @FXML
+    private TableColumn<ProductDto, BigDecimal> columnPrice;
+    @FXML
+    private TableColumn<ProductDto, BigDecimal> columnDiscount;
+    @FXML
+    private TableColumn<ProductDto, BigDecimal> columnActualPrice;
+    @FXML
+    private TableColumn<ProductDto, String> columnDescription;
+    @FXML
+    private HBox boxSettings;
+    @FXML
+    private HBox boxDiscounts;
+    @FXML
+    private MenuButton menuButton;
+    @FXML
+    private MenuButton menuButton2;
+    @FXML
+    private TextField fldName;
+    @FXML
+    private TextField fldPrice;
+    @FXML
+    private TextField fldDiscount;
+    @FXML
+    private TextArea fldDescription;
+    @FXML
+    private TextArea fldError;
+    @FXML
+    private TextField fldMultidiscount;
+    @FXML
+    private TextField fldSearchByID;
 
     private boolean isNew = false;
 
     private String invalidInput = "Please fill all mandatory fields.\n Make sure you enter digits into price and discount fields.\n Please use '.', not ','";
 
 
-    @FXML private void initialize(){
+    @FXML
+    private void initialize() {
         columnID.setCellValueFactory(new PropertyValueFactory<ProductDto, Long>("id"));
         columnName.setCellValueFactory(new PropertyValueFactory<ProductDto, String>("name"));
         columnPrice.setCellValueFactory(new PropertyValueFactory<ProductDto, BigDecimal>("price"));
@@ -63,12 +83,14 @@ public class MainController {
 
     public void buttonAction(ActionEvent actionEvent) {
         Object source = actionEvent.getSource();
-        if (!(source instanceof Button)) {return;}
+        if (!(source instanceof Button)) {
+            return;
+        }
 
-        Button clickedButton = (Button)source;
+        Button clickedButton = (Button) source;
         ProductDto selected = tableProducts.getSelectionModel().getSelectedItem();
 
-        switch (clickedButton.getId()){
+        switch (clickedButton.getId()) {
             case "btnSearch":
                 searchButtonAction();
                 break;
@@ -106,7 +128,7 @@ public class MainController {
         try {
             ProductDto dto = service.findByID(Long.parseLong(fldSearchByID.getText()));
             setOutputText(dto.toString());
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             setOutputText("Please enter ID number!");
         } catch (ProductConvertionException e) {
             setOutputText(e.getMessage());
@@ -141,7 +163,7 @@ public class MainController {
 
     private void editButtonAction(ProductDto selected) {
         fillFields(selected);
-        if (selected !=null) {
+        if (selected != null) {
             activateFields(boxSettings);
         }
     }
@@ -151,43 +173,44 @@ public class MainController {
         try {
             service.delete(selected.getId());
             actionRefresh();
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             setOutputText("Please select item to remove!");
         }
     }
 
     private void saveButtonAction(ProductDto selected) {
         if (isNew) {
-            selected = null;}
+            selected = null;
+        }
         try {
             service.save(createProductFromFields(selected));
             clearFields();
             deactivateUnnecessaryFields();
             actionRefresh();
             isNew = false;
-        } catch (ProductValidationException e){
+        } catch (ProductValidationException e) {
             setOutputText(e.getMessage());
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             setOutputText(invalidInput);
         }
     }
 
     private void saveDiscountsButtonAction() {
         try {
-            if (getCategoryFromMenu(menuButton2)==null){
+            if (getCategoryFromMenu(menuButton2) == null) {
                 setOutputText("Please select category");
             }
             service.setDiscountForCategory(getCategoryFromMenu(menuButton2), new BigDecimal(fldMultidiscount.getText()));
             actionRefresh();
             deactivateUnnecessaryFields();
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             setOutputText("Make sure you enter digits into discount field");
-        } catch (ProductValidationException e){
+        } catch (ProductValidationException e) {
             setOutputText(e.getMessage());
         }
     }
 
-    private void clearFields(){
+    private void clearFields() {
         menuButton.setText("Category:");
         fldName.clear();
         fldPrice.clear();
@@ -196,7 +219,7 @@ public class MainController {
         fldError.clear();
     }
 
-    private void actionRefresh(){
+    private void actionRefresh() {
         tableProducts.setItems(FXCollections.observableList(service.findAll()));
         tableProducts.refresh();
     }
@@ -219,18 +242,18 @@ public class MainController {
         menuButton2.setText(choice.getText());
     }
 
-    private ProductCategory getCategoryFromMenu(MenuButton menuButton){
+    private ProductCategory getCategoryFromMenu(MenuButton menuButton) {
         ProductCategory category = null;
         try {
             category = ProductCategory.valueOf(menuButton.getText());
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             setOutputText("Please select category!");
         }
         return category;
     }
 
-    private void fillFields(ProductDto selectedProductDto){
-        if (selectedProductDto !=null) {
+    private void fillFields(ProductDto selectedProductDto) {
+        if (selectedProductDto != null) {
             menuButton.setText(selectedProductDto.getCategory().toString());
             fldName.setText(selectedProductDto.getName());
             fldPrice.setText(selectedProductDto.getPrice().toString());
@@ -242,12 +265,12 @@ public class MainController {
         }
     }
 
-    private void setOutputText(String message){
+    private void setOutputText(String message) {
         fldError.setText(message);
         fldError.setVisible(true);
     }
 
-    private ProductDto createProductFromFields(ProductDto selected){
+    private ProductDto createProductFromFields(ProductDto selected) {
         Long id = (selected == null) ? null : selected.getId();
 
         ProductDto dto = new ProductDto.Builder()
@@ -261,7 +284,7 @@ public class MainController {
         return dto;
     }
 
-    private void deactivateUnnecessaryFields(){
+    private void deactivateUnnecessaryFields() {
         boxSettings.setOpacity(0.3);
         boxDiscounts.setOpacity(0.3);
         boxSettings.setDisable(true);
@@ -269,7 +292,7 @@ public class MainController {
         fldError.setVisible(false);
     }
 
-    private void activateFields(HBox box){
+    private void activateFields(HBox box) {
         box.setOpacity(1);
         box.setDisable(false);
     }

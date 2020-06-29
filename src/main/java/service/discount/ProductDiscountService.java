@@ -18,7 +18,7 @@ public class ProductDiscountService implements DiscountService {
     private ProductDtoEntityConverter converter;
     private ProductDiscountValidationRule validator;
 
-    public ProductDiscountService(InMemoryProductRepository repository, ProductDtoEntityConverter converter, ProductDiscountValidationRule validator){
+    public ProductDiscountService(InMemoryProductRepository repository, ProductDtoEntityConverter converter, ProductDiscountValidationRule validator) {
         this.repository = repository;
         this.converter = converter;
         this.validator = validator;
@@ -47,7 +47,7 @@ public class ProductDiscountService implements DiscountService {
     }
 
     @Override
-    public BigDecimal getCategoryDiscount(ProductDto dto){
+    public BigDecimal getCategoryDiscount(ProductDto dto) {
         return repository.getCategoryDiscount(converter.toEntity(dto));
     }
 }

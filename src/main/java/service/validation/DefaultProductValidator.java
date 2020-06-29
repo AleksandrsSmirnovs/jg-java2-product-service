@@ -11,12 +11,12 @@ public class DefaultProductValidator implements ProductValidator {
     private final List<ProductValidationRule> listOfRules;
 
 
-    public DefaultProductValidator(List<ProductValidationRule> listOfRules){
+    public DefaultProductValidator(List<ProductValidationRule> listOfRules) {
         this.listOfRules = listOfRules;
     }
 
     @Override
-    public void validateProduct(ProductDto dto){
+    public void validateProduct(ProductDto dto) {
         if (dto == null) {
             throw new ProductValidationException("Product must be not null");
         }

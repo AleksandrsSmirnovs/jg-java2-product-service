@@ -31,7 +31,7 @@ public class ProductDtoEntityConverterTest {
                         .buildDiscount(BigDecimal.valueOf(32))
                         .buildDescription("Description")
                         .build()
-                );
+        );
     }
 
     @Test
@@ -47,11 +47,11 @@ public class ProductDtoEntityConverterTest {
 
         assertThat(victim.toEntity(dto)).isEqualTo(
                 new ProductEntity.ProductBuilder("Product_name", BigDecimal.valueOf(25.5))
-                .buildId(2L)
-                .buildDescription("Description")
-                .buildCategory(ProductCategory.FRUIT)
-                .buildDiscount(BigDecimal.valueOf(32))
-                .build());
+                        .buildId(2L)
+                        .buildDescription("Description")
+                        .buildCategory(ProductCategory.FRUIT)
+                        .buildDiscount(BigDecimal.valueOf(32))
+                        .build());
     }
 
 

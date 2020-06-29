@@ -12,7 +12,7 @@ public class ProductEntity {
     private BigDecimal discount;
     private final String description;
 
-    public static class ProductBuilder{
+    public static class ProductBuilder {
 
         private Long id;
         private final String name;

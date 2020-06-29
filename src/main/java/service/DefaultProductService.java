@@ -46,7 +46,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public void save(ProductDto dto){
+    public void save(ProductDto dto) {
         if ((dto.getCategory() != null) && (discountService.getCategoryDiscount(dto).compareTo(BigDecimal.ZERO) != 0)) {
             discountService.setDiscountForProduct(dto, discountService.getCategoryDiscount(dto));
         }
@@ -93,8 +93,6 @@ public class DefaultProductService implements ProductService {
                 .buildPrice(BigDecimal.valueOf(0.8))
                 .build());
     }
-
-
 
 
 }
