@@ -33,11 +33,11 @@ public class ProductDiscountValidationRuleTest {
     }
 
     @Test
-    public void should_not_throw_exception_when_discount_is_null_and_set_it_to_zero() {
+    public void should_not_throw_exception_when_discount_is_null() {
         ProductDto dto = new ProductDto.Builder().buildDiscount(null).build();
 
         assertThatCode(() -> victim.validate(dto)).doesNotThrowAnyException();
-        assertThat(dto.getDiscount()).isEqualTo(BigDecimal.ZERO);
+        assertThat(dto.getDiscount()).isNull();
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ProductDiscountValidationRuleTest {
                 .build();
 
         assertThatCode(() -> victim.validate(dto)).doesNotThrowAnyException();
-        assertThat(dto.getDiscount()).isEqualTo(BigDecimal.valueOf(10).setScale(2));
+        assertThat(dto.getDiscount()).isEqualTo(BigDecimal.valueOf(10));
     }
 
 }

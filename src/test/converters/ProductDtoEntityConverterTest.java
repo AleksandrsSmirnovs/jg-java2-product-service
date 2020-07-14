@@ -17,7 +17,7 @@ public class ProductDtoEntityConverterTest {
     public void should_convert_entity_to_dto() {
         ProductEntity entity = new ProductEntity.ProductBuilder("Product_name", BigDecimal.valueOf(25.5))
                 .buildId(2L)
-                .buildDescription("Description")
+                .buildDescription("")
                 .buildCategory(ProductCategory.FRUIT)
                 .buildDiscount(BigDecimal.valueOf(32))
                 .build();
@@ -29,7 +29,7 @@ public class ProductDtoEntityConverterTest {
                         .buildPrice(BigDecimal.valueOf(25.5))
                         .buildCategory(ProductCategory.FRUIT)
                         .buildDiscount(BigDecimal.valueOf(32))
-                        .buildDescription("Description")
+                        .buildDescription("")
                         .build()
         );
     }

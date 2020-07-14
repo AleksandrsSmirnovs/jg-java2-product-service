@@ -92,13 +92,13 @@ public class ProductEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductEntity that = (ProductEntity) o;
-        return Objects.equals(id, that.id) &&
-                category == that.category &&
-                name.equals(that.name) &&
-                price.equals(that.price) &&
-                Objects.equals(discount, that.discount) &&
-                Objects.equals(description, that.description);
+        ProductEntity entity = (ProductEntity) o;
+        return Objects.equals(id, entity.id) &&
+                category == entity.category &&
+                Objects.equals(name, entity.name) &&
+                Objects.equals(price, entity.price) &&
+                Objects.equals(discount, entity.discount) &&
+                Objects.equals(description, entity.description);
     }
 
     @Override

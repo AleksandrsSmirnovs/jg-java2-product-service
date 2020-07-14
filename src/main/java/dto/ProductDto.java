@@ -104,13 +104,13 @@ public class ProductDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductDto that = (ProductDto) o;
-        return Objects.equals(id, that.id) &&
-                category == that.category &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(price, that.price) &&
-                Objects.equals(discount, that.discount) &&
-                Objects.equals(description, that.description);
+        ProductDto dto = (ProductDto) o;
+        return Objects.equals(id, dto.id) &&
+                category == dto.category &&
+                Objects.equals(name, dto.name) &&
+                Objects.equals(price, dto.price) &&
+                Objects.equals(discount, dto.discount) &&
+                Objects.equals(description, dto.description);
     }
 
     @Override

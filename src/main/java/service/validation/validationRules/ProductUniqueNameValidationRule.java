@@ -14,7 +14,7 @@ public class ProductUniqueNameValidationRule implements ProductValidationRule {
 
     @Override
     public void validate(ProductDto dto) {
-        if (repository.getNameList().contains(dto.getName())) {
+        if (dto.getName() != null && repository.getNameList().contains(dto.getName())) {
             throw new ProductValidationException("Product name must be unique.");
         }
     }
