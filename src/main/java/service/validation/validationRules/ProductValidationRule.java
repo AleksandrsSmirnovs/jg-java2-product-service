@@ -1,8 +1,8 @@
 package service.validation.validationRules;
 
-import domain.Product;
+import dto.ProductDto;
 
 public interface ProductValidationRule {
 
-    void validate(Product product);
+    void validate(ProductDto productDto);
 }

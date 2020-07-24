@@ -1,29 +1,29 @@
 package service.validation;
 
+import domain.ProductEntity;
+import dto.ProductDto;
 import service.validation.validationRules.*;
-import domain.Product;
 
 import java.util.List;
 
 public class DefaultProductValidator implements ProductValidator {
 
     private final List<ProductValidationRule> listOfRules;
-    private StringBuilder messageList = new StringBuilder();
 
-    public DefaultProductValidator(){
-        listOfRules = List.of(
-                new ProductCategoryValidationRule(),
-                new ProductNameValidationRule(),
-                new ProductPriceValidationRule(),
-                new ProductDescriptionValidationRule()
-        );
+
+    public DefaultProductValidator(List<ProductValidationRule> listOfRules) {
+        this.listOfRules = listOfRules;
     }
 
     @Override
-    public void validateProduct(Product product){
+    public void validateProduct(ProductDto dto) {
+        if (dto == null) {
+            throw new ProductValidationException("Product must be not null");
+        }
+        StringBuilder messageList = new StringBuilder();
         listOfRules.forEach(rule -> {
             try {
-                rule.validate(product);
+                rule.validate(dto);
             } catch (ProductValidationException e) {
                 messageList.append(e.getMessage()).append("\n");
             }

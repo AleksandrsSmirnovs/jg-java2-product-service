@@ -1,32 +1,53 @@
 package service.discount;
 
-import domain.Product;
+import converters.ProductDtoEntityConverter;
 import domain.ProductCategory;
-import repository.Repository;
+import domain.ProductEntity;
+import dto.ProductDto;
+import repository.DiscountRepository;
+import repository.InMemoryProductRepository;
+import service.validation.ProductValidationException;
+import service.validation.validationRules.ProductDiscountValidationRule;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ProductDiscountService implements DiscountService {
 
-    private Map<ProductCategory, BigDecimal> categoryDiscounts = new HashMap<>();
+    private InMemoryProductRepository repository;
+    private ProductDtoEntityConverter converter;
+    private ProductDiscountValidationRule validator;
+
+    public ProductDiscountService(InMemoryProductRepository repository, ProductDtoEntityConverter converter, ProductDiscountValidationRule validator) {
+        this.repository = repository;
+        this.converter = converter;
+        this.validator = validator;
+    }
 
     @Override
-    public void setDiscountForProduct(Product product) {
-
-
+    public void setDiscountForProduct(ProductDto dto, BigDecimal dicsount) {
+        dto.setDiscount(dicsount);
+        validator.validate(dto);
     }
 
     @Override
     public void setDiscountForCategory(ProductCategory category, BigDecimal discount) {
-        categoryDiscounts.put(category, discount);
+        repository.setDiscountForCategory(category, discount);
+        for (ProductEntity entity : repository.findAll()) {
+            if (entity.getCategory().equals(category)) {
+                ProductDto dto = converter.toDto(entity);
+                try {
+                    setDiscountForProduct(dto, discount);
+                    validator.validate(dto);
+                    repository.save(converter.toEntity(dto));
+                } catch (ProductValidationException e) {
+                }
+            }
+        }
     }
 
     @Override
-    public void checkForCategoryDiscount(Product product){
-        if (categoryDiscounts.containsKey(product.getCategory())) {
-            product.setDiscount(categoryDiscounts.get(product.getCategory()));
-        }
+    public BigDecimal getCategoryDiscount(ProductDto dto) {
+        return repository.getCategoryDiscount(converter.toEntity(dto));
     }
 }
