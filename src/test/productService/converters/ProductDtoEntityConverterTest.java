@@ -18,7 +18,7 @@ public class ProductDtoEntityConverterTest {
         ProductEntity entity = new ProductEntity.ProductBuilder("Product_name", BigDecimal.valueOf(25.5))
                 .buildId(2L)
                 .buildDescription("")
-                .buildCategory(ProductCategory.FRUIT)
+                .buildCategory("FRUIT")
                 .buildDiscount(BigDecimal.valueOf(32))
                 .build();
 
@@ -49,7 +49,7 @@ public class ProductDtoEntityConverterTest {
                 new ProductEntity.ProductBuilder("Product_name", BigDecimal.valueOf(25.5))
                         .buildId(2L)
                         .buildDescription("Description")
-                        .buildCategory(ProductCategory.FRUIT)
+                        .buildCategory("FRUIT")
                         .buildDiscount(BigDecimal.valueOf(32))
                         .build());
     }

@@ -8,7 +8,7 @@ import java.util.Objects;
 public class ProductEntity {
 
     private final Long id;
-    private final ProductCategory category;
+    private final String category;
     private final String name;
     private final BigDecimal price;
     private BigDecimal discount;
@@ -19,7 +19,7 @@ public class ProductEntity {
         private Long id;
         private final String name;
         private final BigDecimal price;
-        private ProductCategory category;
+        private String category;
         private BigDecimal discount;
         private String description;
 
@@ -33,7 +33,7 @@ public class ProductEntity {
             return this;
         }
 
-        public ProductBuilder buildCategory(ProductCategory category) {
+        public ProductBuilder buildCategory(String category) {
             this.category = category;
             return this;
         }
@@ -66,7 +66,7 @@ public class ProductEntity {
         return id;
     }
 
-    public ProductCategory getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -96,7 +96,7 @@ public class ProductEntity {
         if (o == null || getClass() != o.getClass()) return false;
         ProductEntity entity = (ProductEntity) o;
         return Objects.equals(id, entity.id) &&
-                category == entity.category &&
+                Objects.equals(category, entity.category) &&
                 Objects.equals(name, entity.name) &&
                 Utils.bigDecimalEquals(price, entity.price) &&
                 Utils.bigDecimalEquals(discount, entity.discount) &&

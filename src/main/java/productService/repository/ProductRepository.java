@@ -1,15 +1,20 @@
 package productService.repository;
 
+import productService.domain.ProductCategory;
+import productService.domain.ProductEntity;
+
+import java.math.BigDecimal;
 import java.util.List;
 
-public interface ProductRepository<ID, T> {
+public interface ProductRepository {
 
-    List<T> findAll();
+    List<ProductEntity> findAll();
 
-    T findByID(ID id);
+    ProductEntity findByID(Long id);
 
-    void save(T entity);
+    void save(ProductEntity entity);
 
-    void delete(ID id);
+    void delete(Long id);
 
+    List<String> getNameList();
 }

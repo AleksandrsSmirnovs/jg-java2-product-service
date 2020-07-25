@@ -1,7 +1,6 @@
 package productService.service;
 
 import productService.converters.ProductDtoEntityConverter;
-import productService.domain.ProductEntity;
 import productService.dto.ProductDto;
 import org.springframework.stereotype.Service;
 import productService.service.discount.DiscountService;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 @Service
 public class DefaultProductService implements ProductService {
 
-    private final ProductRepository<Long, ProductEntity> productRepository;
+    private final ProductRepository productRepository;
     private final ProductValidator validator;
     private final DiscountService discountService;
     private final ProductDtoEntityConverter converter;
@@ -33,7 +32,6 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public List<ProductDto> findAll() {
-
         return productRepository.findAll().stream().map(converter::toDto).collect(Collectors.toList());
     }
 
