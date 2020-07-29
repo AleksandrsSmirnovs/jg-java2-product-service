@@ -62,7 +62,7 @@ public class DefaultProductService implements ProductService {
     public void fillSampleData() {
         save(new ProductDto.Builder()
                 .buildCategory(ProductCategory.FRUIT)
-                .buildName("Lemon")
+                .buildName("Lemonchik")
                 .buildPrice(BigDecimal.valueOf(0.5))
                 .buildDiscount(BigDecimal.valueOf(50))
                 .buildDescription("dasdf")

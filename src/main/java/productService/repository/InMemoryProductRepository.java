@@ -55,5 +55,11 @@ public class InMemoryProductRepository implements ProductRepository {
         return index.values().stream().map(ProductEntity::getName).collect(Collectors.toList());
     }
 
+    @Override
+    public void changeDiscount(ProductEntity entity, BigDecimal discount) {
+        entity.setDiscount(discount);
+        save(entity);
+    }
+
 
 }

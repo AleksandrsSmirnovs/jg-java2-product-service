@@ -5,7 +5,6 @@ import productService.domain.ProductCategory;
 import productService.domain.ProductEntity;
 import productService.dto.ProductDto;
 import org.springframework.stereotype.Service;
-import productService.repository.InMemoryProductRepository;
 import productService.repository.ProductRepository;
 import productService.service.validation.ProductValidationException;
 import productService.service.validation.validationRules.ProductDiscountValidationRule;
@@ -33,7 +32,7 @@ public class ProductDiscountService implements DiscountService {
     public void setDiscountForProduct(ProductDto dto, BigDecimal dicsount) {
         dto.setDiscount(dicsount);
         validator.validate(dto);
-        repository.save(converter.toEntity(dto));
+        repository.changeDiscount(converter.toEntity(dto), dicsount);
     }
 
     @Override
@@ -44,9 +43,8 @@ public class ProductDiscountService implements DiscountService {
                 ProductDto dto = converter.toDto(entity);
                 try {
                     setDiscountForProduct(dto, discount);
-                    validator.validate(dto);
-                    repository.save(converter.toEntity(dto));
                 } catch (ProductValidationException e) {
+                    setDiscountForProduct(dto, null);
                 }
             }
         }

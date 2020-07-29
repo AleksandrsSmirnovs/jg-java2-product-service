@@ -5,14 +5,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import productService.domain.ProductCategory;
+import productService.converters.ProductEntityRowMapper;
 import productService.domain.ProductEntity;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Profile("jdbc")
@@ -26,12 +27,15 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public List<ProductEntity> findAll() {
-        return new ArrayList<>();
+        String query = "SELECT * FROM product";
+        return jdbcTemplate.query(query, new ProductEntityRowMapper());
     }
 
     @Override
     public ProductEntity findByID(Long id) {
-        return null;
+        String query = "SELECT * FROM product WHERE id = ?";
+        List<ProductEntity> resultList = jdbcTemplate.query(query, new Object[]{id}, new ProductEntityRowMapper());
+        return resultList.isEmpty() ? null : resultList.get(0);
     }
 
     @Override
@@ -51,11 +55,28 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public void delete(Long id) {
-
+        String query = "DELETE FROM product WHERE id = ?";
+        jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, id);
+            return preparedStatement;
+        });
     }
 
     @Override
     public List<String> getNameList() {
-        return null;
+        String query = "SELECT name FROM product";
+        return jdbcTemplate.queryForList(query, new Object[]{}, String.class);
+    }
+
+    @Override
+    public void changeDiscount(ProductEntity entity, BigDecimal discount) {
+        String query = "UPDATE product SET discount = ? WHERE id = ?";
+        jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setBigDecimal(1, discount);
+            preparedStatement.setLong(2, entity.getId());
+            return preparedStatement;
+        });
     }
 }

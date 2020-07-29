@@ -81,6 +81,7 @@ public class MainController {
     public void injectService(ProductService service) {
         this.service = service;
         observableList = FXCollections.observableList(service.findAll());
+        actionRefresh();
     }
 
     public void buttonAction(ActionEvent actionEvent) {
@@ -183,6 +184,8 @@ public class MainController {
     private void saveButtonAction(ProductDto selected) {
         if (isNew) {
             selected = null;
+        } else {
+            service.delete(selected.getId());
         }
         try {
             service.save(createProductFromFields(selected));
@@ -273,17 +276,13 @@ public class MainController {
     }
 
     private ProductDto createProductFromFields(ProductDto selected) {
-        Long id = (selected == null) ? null : selected.getId();
-
-        ProductDto dto = new ProductDto.Builder()
-                .buildId(id)
+        return new ProductDto.Builder()
                 .buildCategory(getCategoryFromMenu(menuButton))
                 .buildName(fldName.getText())
                 .buildPrice(new BigDecimal(fldPrice.getText()))
                 .buildDiscount(new BigDecimal(fldDiscount.getText().isBlank() ? "0" : fldDiscount.getText()))
                 .buildDescription(fldDescription.getText())
                 .build();
-        return dto;
     }
 
     private void deactivateUnnecessaryFields() {

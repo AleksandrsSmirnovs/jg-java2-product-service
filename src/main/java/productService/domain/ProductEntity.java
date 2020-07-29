@@ -7,12 +7,16 @@ import java.util.Objects;
 
 public class ProductEntity {
 
-    private final Long id;
-    private final String category;
-    private final String name;
-    private final BigDecimal price;
+    private Long id;
+    private String category;
+    private String name;
+    private BigDecimal price;
     private BigDecimal discount;
-    private final String description;
+    private String description;
+
+    public ProductEntity() {
+
+    }
 
     public static class ProductBuilder {
 
@@ -84,6 +88,27 @@ public class ProductEntity {
 
     public String getDescription() {
         return description;
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setDiscount(BigDecimal discount) {

@@ -17,4 +17,6 @@ public interface ProductRepository {
     void delete(Long id);
 
     List<String> getNameList();
+
+    void changeDiscount(ProductEntity entity, BigDecimal discount);
 }
