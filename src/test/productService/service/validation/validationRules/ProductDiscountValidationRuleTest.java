@@ -39,14 +39,15 @@ public class ProductDiscountValidationRuleTest {
     }
 
     @Test
-    public void should_set_discount_to_zero_if_price_is_less_than_20() {
+    public void should_throw_exception_when__price_is_less_than_20() {
         ProductDto dto = new ProductDto.Builder()
                 .buildPrice(BigDecimal.valueOf(15))
                 .buildDiscount(BigDecimal.valueOf(10))
                 .build();
 
-        victim.validate(dto);
-        assertThat(dto.getDiscount()).isEqualTo(BigDecimal.ZERO);
+        assertThatThrownBy(() -> victim.validate(dto))
+                .isInstanceOf(ProductValidationException.class)
+                .hasMessage("Product discount can't be set if price is lower than 20.");
     }
 
     @Test

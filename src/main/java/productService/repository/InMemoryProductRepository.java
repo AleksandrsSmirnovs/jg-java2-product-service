@@ -1,5 +1,6 @@
 package productService.repository;
 
+import org.springframework.context.annotation.Profile;
 import productService.domain.ProductEntity;
 import productService.domain.ProductCategory;
 import org.springframework.stereotype.Repository;
@@ -12,12 +13,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
-public class InMemoryProductRepository implements ProductRepository<Long, ProductEntity>, DiscountRepository<ProductCategory, BigDecimal, ProductEntity> {
+@Profile("inmemory")
+public class InMemoryProductRepository implements ProductRepository {
 
     private static Long SEQ = 0L;
 
     Map<Long, ProductEntity> index = new HashMap<>();
-    Map<ProductCategory, BigDecimal> categoryDiscounts = new HashMap<>();
 
     @Override
     public List<ProductEntity> findAll() {
@@ -50,18 +51,15 @@ public class InMemoryProductRepository implements ProductRepository<Long, Produc
         index.put(newEntity.getId(), newEntity);
     }
 
-    @Override
-    public void setDiscountForCategory(ProductCategory category, BigDecimal discount) {
-        categoryDiscounts.put(category, discount);
-    }
-
-    @Override
-    public BigDecimal getCategoryDiscount(ProductEntity entity) {
-        return categoryDiscounts.get(entity.getCategory()) == null ? BigDecimal.ZERO : categoryDiscounts.get(entity.getCategory());
-    }
-
     public List<String> getNameList() {
         return index.values().stream().map(ProductEntity::getName).collect(Collectors.toList());
     }
+
+    @Override
+    public void changeDiscount(ProductEntity entity, BigDecimal discount) {
+        entity.setDiscount(discount);
+        save(entity);
+    }
+
 
 }

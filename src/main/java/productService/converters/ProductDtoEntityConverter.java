@@ -17,7 +17,7 @@ public class ProductDtoEntityConverter {
         if (dto.getPrice() == null) throw new ProductConvertionException("Price must be not null.");
         return new ProductEntity.ProductBuilder(dto.getName(), dto.getPrice())
                 .buildId(dto.getId())
-                .buildCategory(dto.getCategory())
+                .buildCategory(dto.getCategory() == null ? null : dto.getCategory().name())
                 .buildDiscount(dto.getDiscount())
                 .buildDescription(dto.getDescription())
                 .build();
@@ -29,7 +29,7 @@ public class ProductDtoEntityConverter {
                 .buildId(entity.getId())
                 .buildName(entity.getName())
                 .buildPrice(entity.getPrice().setScale(2, RoundingMode.HALF_UP))
-                .buildCategory(entity.getCategory() == null ? ProductCategory.UNDEFINED : entity.getCategory())
+                .buildCategory(entity.getCategory() == null ? ProductCategory.UNDEFINED : ProductCategory.valueOf(entity.getCategory()))
                 .buildDiscount(entity.getDiscount() == null ? BigDecimal.ZERO : entity.getDiscount().setScale(2, RoundingMode.HALF_UP))
                 .buildDescription(entity.getDescription())
                 .build();

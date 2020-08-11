@@ -2,15 +2,15 @@ package productService.service.validation.validationRules;
 
 import productService.dto.ProductDto;
 import org.springframework.stereotype.Component;
-import productService.repository.InMemoryProductRepository;
+import productService.repository.ProductRepository;
 import productService.service.validation.ProductValidationException;
 
 @Component
 public class ProductUniqueNameValidationRule implements ProductValidationRule {
 
-    InMemoryProductRepository repository;
+    ProductRepository repository;
 
-    public ProductUniqueNameValidationRule(InMemoryProductRepository repository) {
+    public ProductUniqueNameValidationRule(ProductRepository repository) {
         this.repository = repository;
     }
 
