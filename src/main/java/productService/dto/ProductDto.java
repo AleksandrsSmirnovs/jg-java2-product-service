@@ -1,7 +1,6 @@
 package productService.dto;
 
 import productService.domain.ProductCategory;
-import productService.util.Utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -105,13 +104,13 @@ public class ProductDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductDto dto = (ProductDto) o;
-        return Objects.equals(id, dto.id) &&
-                category == dto.category &&
-                Objects.equals(name, dto.name) &&
-                Utils.bigDecimalEquals(price, dto.price) &&
-                Utils.bigDecimalEquals(discount, dto.discount) &&
-                Objects.equals(description, dto.description);
+        ProductDto that = (ProductDto) o;
+        return Objects.equals(id, that.id) &&
+                category == that.category &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(price, that.price) &&
+                Objects.equals(discount, that.discount) &&
+                Objects.equals(description, that.description);
     }
 
     @Override

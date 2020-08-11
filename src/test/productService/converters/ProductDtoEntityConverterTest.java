@@ -6,6 +6,7 @@ import productService.dto.ProductDto;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -26,9 +27,9 @@ public class ProductDtoEntityConverterTest {
                 new ProductDto.Builder()
                         .buildId(2L)
                         .buildName("Product_name")
-                        .buildPrice(BigDecimal.valueOf(25.5))
+                        .buildPrice(BigDecimal.valueOf(25.5).setScale(2, RoundingMode.HALF_UP))
                         .buildCategory(ProductCategory.FRUIT)
-                        .buildDiscount(BigDecimal.valueOf(32))
+                        .buildDiscount(BigDecimal.valueOf(32).setScale(2, RoundingMode.HALF_UP))
                         .buildDescription("")
                         .build()
         );

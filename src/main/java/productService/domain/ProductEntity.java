@@ -1,7 +1,5 @@
 package productService.domain;
 
-import productService.util.Utils;
-
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -98,8 +96,8 @@ public class ProductEntity {
         return Objects.equals(id, entity.id) &&
                 category == entity.category &&
                 Objects.equals(name, entity.name) &&
-                Utils.bigDecimalEquals(price, entity.price) &&
-                Utils.bigDecimalEquals(discount, entity.discount) &&
+                Objects.equals(price, entity.price) &&
+                Objects.equals(discount, entity.discount) &&
                 Objects.equals(description, entity.description);
     }
 
